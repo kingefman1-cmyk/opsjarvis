@@ -18,6 +18,8 @@ const EXAMPLES = [
   "Triaging client emails and updating HubSpot deals manually",
   "Copying Stripe refunds into a spreadsheet and Slack every morning",
   "Answering the same onboarding questions in Telegram all day",
+  "Matching Paystack and Flutterwave payouts to invoices in Xero by hand",
+  "Replying to WhatsApp Business order questions one by one",
 ];
 
 /**
@@ -69,6 +71,10 @@ export default function BlueprintCapture() {
             <li>· Your keys, your .env, your source code</li>
             <li>· Built on the same stack as this live sandbox</li>
           </ul>
+          <p className="mt-4 rounded-lg border border-ink-700 bg-ink-950/50 px-3 py-2.5 text-[11px] leading-relaxed text-slate-400">
+            <span className="font-medium text-slate-200">Worldwide Async Delivery</span> · All Timezones (Americas, Africa, Europe, Middle East &amp; APAC) · Works with Gmail,
+            WhatsApp Business, Slack, Telegram, Paystack, Flutterwave, Stripe, HubSpot, Pipedrive &amp; Xero.
+          </p>
         </div>
 
         <div className="lg:col-span-3">
@@ -124,7 +130,28 @@ export default function BlueprintCapture() {
   );
 }
 
+function blueprintText(bp: Blueprint) {
+  const steps = bp.steps.map((s, i) => `${i + 1}. ${s.name} — ${s.agent}: ${s.detail} (approval gate: ${s.approvalGate})`).join("\n");
+  return `${bp.title}\nRecommended: ${bp.tier} · ${bp.tierPrice} · ${bp.buildTime}\n\n${steps}\n\n${bp.whyThisTier}\nEst. time saved: ${bp.estimatedHoursSavedPerWeek} · Est. API cost: ${bp.estimatedMonthlyApiCost}\n\nGenerated at https://caelaralabs.com/#blueprint · OpsJarvis by Caelara Labs`;
+}
+
 function BlueprintView({ bp, emailed, emailNote, onReset }: { bp: Blueprint; emailed: boolean; emailNote?: string; onReset: () => void }) {
+  const [copied, setCopied] = useState<"idle" | "copied" | "shared" | "failed">("idle");
+  async function share() {
+    const text = blueprintText(bp);
+    try {
+      if (typeof navigator !== "undefined" && "share" in navigator && /Mobi|Android/i.test(navigator.userAgent)) {
+        await navigator.share({ title: `${bp.title} — OpsJarvis blueprint`, text });
+        setCopied("shared");
+      } else {
+        await navigator.clipboard.writeText(text);
+        setCopied("copied");
+      }
+    } catch {
+      try { await navigator.clipboard.writeText(text); setCopied("copied"); } catch { setCopied("failed"); }
+    }
+    setTimeout(() => setCopied("idle"), 2500);
+  }
   return (
     <div className="rounded-xl border border-ink-700 bg-ink-950/60 p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
@@ -174,6 +201,13 @@ function BlueprintView({ bp, emailed, emailNote, onReset }: { bp: Blueprint; ema
         <a href={FIVERR_URL} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink-950 hover:bg-signal-dim">
           Book this build ({bp.tierPrice}) →
         </a>
+        <button
+          onClick={share}
+          className="rounded-lg border border-signal/40 bg-signal/10 px-3 py-2.5 text-xs font-medium text-signal hover:bg-signal/20"
+          title="Copy the full blueprint as text to forward to a co-founder or CTO"
+        >
+          {copied === "copied" ? "Copied ✓" : copied === "shared" ? "Shared ✓" : copied === "failed" ? "Select & copy manually" : "Copy / Share Blueprint"}
+        </button>
         <button onClick={onReset} className="rounded-lg border border-ink-600 px-3 py-2.5 text-xs text-slate-300 hover:bg-ink-800">
           Try another workflow
         </button>

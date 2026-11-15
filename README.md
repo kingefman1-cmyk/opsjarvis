@@ -10,6 +10,8 @@
 
 OpsJarvis reads what your team receives (email, Slack, Telegram), flags what is urgent, drafts the next step, and **waits for a person to approve** anything that writes to Stripe, HubSpot, or a customer. Keys stay in your `.env.local`. You own the code.
 
+**Worldwide Async Delivery · All Timezones (Americas, Africa, Europe, Middle East & APAC) · Works with Gmail, WhatsApp Business, Slack, Telegram, Paystack, Flutterwave, Stripe, HubSpot, Pipedrive & Xero.** Built for distributed teams in Lagos, Abuja, Nairobi, Accra, Johannesburg, Cape Town, London, Berlin, Dubai, Singapore and New York alike: every approval is async, every write is logged with actor, time and target, and every key stays on your own server.
+
 | Try it now | Link |
 |---|---|
 | **Web sandbox** (no login, demo data) | **https://caelaralabs.com** |
