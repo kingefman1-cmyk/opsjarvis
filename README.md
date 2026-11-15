@@ -34,6 +34,9 @@ lib/llm.ts               one adapter, automatic failover: Claude -> Gemini -> Gr
 lib/tg/triage.ts         the triage classifier used by the demo bot (prompt-injection hardened, output scrubbed)
 lib/demo-data.ts         fictional sample data (replace per client)
 scripts/tg-demo-bot.ts   the public Telegram demo bot (simulated approvals, 10 runs/user/day)
+components/BlueprintCapture.tsx + app/api/leads/blueprint/
+                         "Get your Claude blueprint": bottleneck + email -> 3-step architecture (LLM or template),
+                         emailed via Resend, hot-lead alert to your Telegram, stored in data/blueprint-leads.json
 ```
 
 Connectors (Gmail, Slack, Stripe, HubSpot), multi-step write pipelines, 24/7 workers and per-client dashboards are delivered as production builds — see [service tiers](#need-production-integrations) below.
@@ -47,6 +50,8 @@ Connectors (Gmail, Slack, Stripe, HubSpot), multi-step write pipelines, 24/7 wor
 **Automatic LLM failover.** `lib/llm.ts` tries **Claude → Gemini → Groq**. Each provider walks a model-preference list when an account lacks a model, every call has a 30-second timeout, a provider that returns an auth error is disabled for the process, and one that times out or hits quota twice in a row is parked so a dead key never slows the loop.
 
 **5-second health checks.** The dashboard polls `/api/status` every 5 seconds: engine availability, API latency, and queue depth, so a stalled connector is visible before a customer notices.
+
+**Lead capture without a vendor.** `POST /api/leads/blueprint` validates and rate-limits, generates a tailored 3-step blueprint (with the deterministic template as a no-key fallback), emails it through Resend's REST API, and posts a hot-lead card to the owner's Telegram — all server-side, all optional via env.
 
 **Prompt-injection hardened triage.** The classifier sees only a fixed system prompt plus the untrusted message, is told never to follow instructions inside it, and its output is scrubbed for anything secret-shaped before display.
 

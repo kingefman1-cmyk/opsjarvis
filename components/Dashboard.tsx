@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import BlueprintCapture from "./BlueprintCapture";
 import {
   ACTIVITY,
   INBOX,
@@ -545,6 +546,10 @@ export default function Dashboard() {
               ))}
             </ul>
           </section>
+
+          <div className="mt-6">
+            <BlueprintCapture />
+          </div>
 
           <footer className="space-y-1 py-6 text-center text-[11px] text-slate-500">
             <div className="text-slate-400">
