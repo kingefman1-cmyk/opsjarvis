@@ -6,13 +6,13 @@
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org)
 [![Claude](https://img.shields.io/badge/engine-Claude-d97757)](https://www.anthropic.com)
 [![Human in the loop](https://img.shields.io/badge/writes-human%20approved-2f9e44)](#architecture)
-[![Live sandbox](https://img.shields.io/badge/sandbox-live-1971c2)](https://opsjarvis.vercel.app)
+[![Live sandbox](https://img.shields.io/badge/sandbox-live-1971c2)](https://caelaralabs.com)
 
 OpsJarvis reads what your team receives (email, Slack, Telegram), flags what is urgent, drafts the next step, and **waits for a person to approve** anything that writes to Stripe, HubSpot, or a customer. Keys stay in your `.env.local`. You own the code.
 
 | Try it now | Link |
 |---|---|
-| **Web sandbox** (no login, demo data) | **https://opsjarvis.vercel.app** |
+| **Web sandbox** (no login, demo data) | **https://caelaralabs.com** |
 | **Telegram triage bot** (paste any message) | **https://t.me/OpsJarvisAI_bot** |
 | **Custom production builds & managed hosting** | **https://www.fiverr.com/king12fx/build-your-custom-claude-ai-assistant-and-automated-dashboard** |
 
