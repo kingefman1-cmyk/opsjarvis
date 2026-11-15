@@ -24,6 +24,9 @@ export const SERVICES: Service[] = [
 
 export type Priority = "urgent" | "normal" | "low";
 
+/** One line of the agent's reasoning trace: elapsed seconds since the message arrived + what the agent did. */
+export type TraceStep = { t: number; step: string };
+
 export type InboxItem = {
   id: string;
   source: "email" | "slack" | "telegram";
@@ -36,6 +39,7 @@ export type InboxItem = {
   summary: string;
   suggestion: string;
   minutesAgo: number;
+  trace?: TraceStep[];
 };
 
 export const INBOX: InboxItem[] = [
@@ -51,6 +55,12 @@ export const INBOX: InboxItem[] = [
     summary: "Customer reports a duplicate charge on invoice 4471 and wants a refund by Friday.",
     suggestion: "Draft an apology, confirm the duplicate in Stripe, and queue a refund for approval.",
     minutesAgo: 4,
+    trace: [
+      { t: 0.18, step: "Sender verified: dana@northwind-supply.example matches HubSpot contact #2291" },
+      { t: 0.44, step: "Duplicate charge matched in Stripe: ch_3Q…a1 and ch_3Q…b7, both $1,240.00 on invoice 4471" },
+      { t: 0.61, step: "Policy check: refunds over $500 require a human approver" },
+      { t: 0.79, step: "Held at human approval gate; apology draft prepared" },
+    ],
   },
   {
     id: "m2",
@@ -64,6 +74,12 @@ export const INBOX: InboxItem[] = [
     summary: "Possible checkout outage on iOS Safari, three reports within one hour.",
     suggestion: "Open an incident ticket, page the on-call engineer, and post a holding reply.",
     minutesAgo: 11,
+    trace: [
+      { t: 0.12, step: "Channel verified: #support-escalations, poster is a support lead" },
+      { t: 0.37, step: "Correlated 3 reports in 61 min; error rate on /checkout (iOS Safari) up 9×" },
+      { t: 0.58, step: "Classified as Incident · urgent; drafted holding reply and incident ticket" },
+      { t: 0.74, step: "Paging requires approval; held at gate" },
+    ],
   },
   {
     id: "m7",
@@ -77,6 +93,11 @@ export const INBOX: InboxItem[] = [
     summary: "Prospect asks for a 7am Telegram digest to a team group plus urgent-only pings.",
     suggestion: "Reply with the Standard tier fit, propose a PM2-scheduled digest worker, and book a 15-minute call.",
     minutesAgo: 19,
+    trace: [
+      { t: 0.15, step: "New Telegram contact; no prior thread. Classified as Inbound lead" },
+      { t: 0.41, step: "Scope matched: scheduled digest + urgent pings → Standard tier + PM2 worker" },
+      { t: 0.66, step: "Reply drafted with pricing and a 15-minute call link; no write performed" },
+    ],
   },
   {
     id: "m3",
@@ -90,6 +111,11 @@ export const INBOX: InboxItem[] = [
     summary: "Client asks to move the onboarding call from Thursday to Tuesday 2pm.",
     suggestion: "Check the calendar, propose Tuesday 2pm, and update the CRM deal note.",
     minutesAgo: 27,
+    trace: [
+      { t: 0.14, step: "Sender verified: Bell & Co deal #8841 in HubSpot (stage: Proposal)" },
+      { t: 0.39, step: "Calendar checked: Tuesday 14:00 is free for the account owner" },
+      { t: 0.55, step: "Reply + CRM note drafted; stage change queued for approval" },
+    ],
   },
   {
     id: "m4",
@@ -129,10 +155,20 @@ export const INBOX: InboxItem[] = [
     summary: "Existing customer wants to renew and expand from 10 to 12 seats.",
     suggestion: "Generate a 12-seat renewal quote and draft a reply for review.",
     minutesAgo: 73,
+    trace: [
+      { t: 0.16, step: "Sender verified: Brightpath Dental, active plan, 10 seats, renews in 23 days" },
+      { t: 0.48, step: "Renewal pricing applied for 12 seats; quote PDF generated" },
+      { t: 0.70, step: "Reply drafted; sending waits for approval" },
+    ],
   },
 ];
 
 export type TaskStatus = "needs_approval" | "queued" | "running" | "done";
+
+/** The simulated outbound call a task would make, shown in the execution diff before anyone confirms. */
+export type TaskPayload = { method: "POST" | "PATCH" | "PUT"; endpoint: string; body: Record<string, string | number | boolean> };
+/** The customer-facing message a task would send, editable in the modal before execution. */
+export type TaskDraft = { kind: "email" | "slack"; to: string; subject?: string; body: string };
 
 export type Task = {
   id: string;
@@ -142,6 +178,10 @@ export type Task = {
   risk: "low" | "medium" | "high";
   status: TaskStatus;
   steps: string[];
+  payload?: TaskPayload;
+  before?: Record<string, string>;
+  after?: Record<string, string>;
+  draft?: TaskDraft;
 };
 
 export const TASKS: Task[] = [
@@ -153,6 +193,15 @@ export const TASKS: Task[] = [
     risk: "high",
     status: "needs_approval",
     steps: ["Match both charges to invoice 4471", "Create refund for the second charge", "Email receipt to customer"],
+    payload: { method: "POST", endpoint: "/v1/refunds", body: { charge: "ch_3Q…b7", amount: 124000, currency: "usd", reason: "duplicate", invoice: "4471" } },
+    before: { "Invoice 4471": "paid twice · $2,480.00 captured", "Refunds": "none", "Customer status": "waiting since 09:37" },
+    after: { "Invoice 4471": "paid once · $1,240.00 captured", "Refunds": "re_… $1,240.00 (duplicate)", "Customer status": "receipt emailed" },
+    draft: {
+      kind: "email",
+      to: "dana@northwind-supply.example",
+      subject: "Re: Invoice 4471 charged twice — refund issued",
+      body: "Hi Dana,\n\nYou're right, invoice 4471 was charged twice on our side. I've refunded the duplicate $1,240.00 to the original card; it should show within 5–10 business days depending on your bank.\n\nSorry for the hassle, and thank you for flagging it so quickly.\n\nBest,\nNorthwind account team",
+    },
   },
   {
     id: "t2",
@@ -162,6 +211,14 @@ export const TASKS: Task[] = [
     risk: "medium",
     status: "needs_approval",
     steps: ["Set deal stage to Onboarding", "Write call note", "Notify account owner"],
+    payload: { method: "PATCH", endpoint: "/crm/v3/objects/deals/8841", body: { dealstage: "onboarding", next_call: "2026-11-18T14:00:00-05:00", note: "Call moved from Thu to Tue 2pm at client's request" } },
+    before: { "Deal stage": "Proposal", "Next call": "Thu 11:00", "Owner notified": "no" },
+    after: { "Deal stage": "Onboarding", "Next call": "Tue 14:00", "Owner notified": "yes · #sales" },
+    draft: {
+      kind: "slack",
+      to: "#sales",
+      body: "Bell & Co moved to *Onboarding*. Kickoff call rescheduled to Tue 2:00pm at Marcus's request — calendar invite updated, deal note added. cc @account-owner",
+    },
   },
   {
     id: "t3",
@@ -203,3 +260,43 @@ export const ACTIVITY: LogEntry[] = [
   { id: "l6", time: "09:12", actor: "jarvis", text: "Archived 14 newsletters and updated the Friday digest." },
   { id: "l7", time: "08:00", actor: "system", text: "PM2 worker ran the daily revenue summary in 6.2 s." },
 ];
+
+/** Injected by the "Simulate Incoming Crisis" command: one urgent incident message plus the task it spawns. */
+export const CRISIS_INBOX: InboxItem = {
+  id: "m-crisis",
+  source: "slack",
+  from: "Payments monitor",
+  channel: "#incidents",
+  subject: "Payment webhooks failing: 38 orders unconfirmed",
+  preview: "Stripe webhook deliveries returning 502 for 9 minutes. 38 paid orders have no confirmation email and are stuck in 'pending'.",
+  priority: "urgent",
+  category: "Incident",
+  summary: "Webhook endpoint is down; paid orders are not being confirmed, and customers are starting to write in.",
+  suggestion: "Open a P1 incident, page on-call, pause the order-reminder emails, and queue a replay of the 38 webhook events once the endpoint is back.",
+  minutesAgo: 0,
+  trace: [
+    { t: 0.09, step: "Source verified: monitor bot in #incidents (allow-listed)" },
+    { t: 0.31, step: "Stripe events API: 38 checkout.session.completed events with delivery status failed" },
+    { t: 0.52, step: "Blast radius: $4,912 in paid orders without confirmation; 3 customer emails already in inbox" },
+    { t: 0.68, step: "Runbook matched: INC-PAY-02 (webhook outage). Paging + replay require approval" },
+    { t: 0.83, step: "Held at human approval gate" },
+  ],
+};
+
+export const CRISIS_TASK: Task = {
+  id: "t-crisis",
+  title: "Open P1 incident and page on-call for payment webhooks",
+  detail: "38 unconfirmed orders · runbook INC-PAY-02",
+  tool: "Slack",
+  risk: "high",
+  status: "needs_approval",
+  steps: ["Create incident channel #inc-payment-webhooks", "Page on-call engineer", "Pause order-reminder emails", "Replay 38 failed webhook events"],
+  payload: { method: "POST", endpoint: "/api/incidents", body: { severity: "P1", title: "Payment webhooks failing", runbook: "INC-PAY-02", page: "oncall-payments", replay_events: 38 } },
+  before: { "Incident": "none open", "On-call": "not paged", "Order reminders": "sending", "Failed webhooks": "38 pending" },
+  after: { "Incident": "INC-2211 · P1 open", "On-call": "paged (ack pending)", "Order reminders": "paused", "Failed webhooks": "replay queued" },
+  draft: {
+    kind: "slack",
+    to: "#incidents",
+    body: ":rotating_light: *P1 opened: payment webhooks failing* (INC-2211)\nSince 09:48 Stripe webhook deliveries return 502; 38 paid orders unconfirmed. On-call paged. Order-reminder emails paused so nobody gets a 'payment missing' notice. Replay of the 38 events is queued and will run once the endpoint is healthy.\nUpdates every 15 min in this thread.",
+  },
+};

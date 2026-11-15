@@ -9,6 +9,8 @@ type Blueprint = {
   tierPrice: string;
   buildTime: string;
   whyThisTier: string;
+  estimatedHoursSavedPerWeek: string;
+  estimatedMonthlyApiCost: string;
 };
 
 const FIVERR_URL = "https://www.fiverr.com/king12fx/build-your-custom-claude-ai-assistant-and-automated-dashboard";
@@ -153,6 +155,21 @@ function BlueprintView({ bp, emailed, emailNote, onReset }: { bp: Blueprint; ema
         ))}
       </ol>
       <p className="mt-3 text-xs text-slate-400">{bp.whyThisTier}</p>
+
+      {/* ROI & running-cost estimate */}
+      <div className="mt-4 grid grid-cols-2 gap-2">
+        <div className="rounded-lg border border-signal/25 bg-signal/[0.06] px-3 py-2.5">
+          <div className="text-[10px] uppercase tracking-wider text-slate-400">Est. time saved</div>
+          <div className="mt-0.5 text-lg font-semibold tabular-nums text-signal">{bp.estimatedHoursSavedPerWeek}</div>
+          <div className="text-[10px] text-slate-500">manual work removed, conservative</div>
+        </div>
+        <div className="rounded-lg border border-ink-700 bg-ink-900 px-3 py-2.5">
+          <div className="text-[10px] uppercase tracking-wider text-slate-400">Est. API cost</div>
+          <div className="mt-0.5 text-lg font-semibold tabular-nums text-white">{bp.estimatedMonthlyApiCost}</div>
+          <div className="text-[10px] text-slate-500">billed by your own Claude account, no markup</div>
+        </div>
+      </div>
+
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <a href={FIVERR_URL} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-signal px-4 py-2.5 text-sm font-semibold text-ink-950 hover:bg-signal-dim">
           Book this build ({bp.tierPrice}) →
