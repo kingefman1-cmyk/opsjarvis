@@ -179,6 +179,7 @@ export async function alertFounder(lead: BlueprintLead): Promise<boolean> {
       link_preview_options: { is_disabled: true },
     }),
     signal: AbortSignal.timeout(15_000),
-  }).catch(() => null);
+  }).catch((e: Error) => { console.warn(`[blueprint] telegram alert failed: ${e.message.slice(0, 100)}`); return null; });
+  if (res && !res.ok) console.warn(`[blueprint] telegram alert ${res.status}: ${(await res.text()).slice(0, 120)}`);
   return !!res && res.ok;
 }

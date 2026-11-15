@@ -46,7 +46,9 @@ export async function POST(req: Request) {
   const mail = await sendEmail(email, `Your Claude architecture blueprint: ${blueprint.title}`, blueprintHtml(lead));
   lead.emailed = mail.ok;
   lead.alerted = await alertFounder(lead);
-  saveLead(lead);
+  const stored = saveLead(lead);
+  // Operational breadcrumb only: no email address, no key material.
+  console.log(`[blueprint] engine=${engine} tier=${blueprint.tier} emailed=${mail.ok}${mail.ok ? "" : ` (${mail.error})`} alerted=${lead.alerted} stored=${stored} telegram=${process.env.TELEGRAM_BOT_TOKEN ? "configured" : "missing"}/${process.env.TELEGRAM_CHAT_ID ? "chat-set" : "chat-missing"}`);
 
   return NextResponse.json({ ok: true, blueprint, emailed: mail.ok, emailNote: mail.ok ? undefined : "Email delivery is being set up; the blueprint is shown here and we will follow up personally." });
 }
