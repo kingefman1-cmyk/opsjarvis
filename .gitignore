@@ -1,0 +1,20 @@
+# dependencies / build
+node_modules/
+.next/
+out/
+.vercel/
+tsconfig.tsbuildinfo
+
+# secrets — only the template is tracked
+.env
+.env.*
+!.env.example
+
+# runtime state, logs, generated screenshots
+data/
+*.log
+*.png
+!public/**/*.png
+
+# private growth tooling (never part of the open-core tree)
+internal/
