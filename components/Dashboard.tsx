@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import BlueprintCapture from "./BlueprintCapture";
+import SeoFaqSection from "./SeoFaqSection";
 import CommandPalette, { type Command } from "./CommandPalette";
 import ExecutionDiffModal from "./ExecutionDiffModal";
 import {
@@ -847,6 +848,10 @@ export default function Dashboard() {
 
           <div className="mt-6">
             <BlueprintCapture />
+          </div>
+
+          <div className="mt-6">
+            <SeoFaqSection />
           </div>
 
           <footer className="space-y-1 py-6 text-center text-[11px] text-slate-500">
