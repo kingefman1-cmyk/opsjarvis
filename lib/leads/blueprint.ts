@@ -152,7 +152,7 @@ export function blueprintHtml(lead: Pick<BlueprintLead, "bottleneck" | "blueprin
 <div style="color:#64748b;margin-top:8px;font-size:11px">Estimates at typical volume. API spend is billed by your own Claude provider account; no markup.</div></div>
 <p style="margin:22px 0 10px"><a href="${FIVERR_URL}" style="display:inline-block;background:#5eead4;color:#07090d;font-weight:700;padding:12px 18px;border-radius:8px;text-decoration:none">Book this build →</a></p>
 <p style="color:#94a3b8;font-size:13px;line-height:1.5">Fixed scope, fixed price, delivered from the same codebase as the live sandbox (<a href="https://opsjarvis.vercel.app" style="color:#5eead4">opsjarvis.vercel.app</a>). Your keys stay in your own .env; you own 100% of the source. Reply to this email with questions.</p>
-<p style="color:#64748b;font-size:11px">Efe Brume-Ezewu · Caelara Labs · You received this because you requested a blueprint. Reply "unsubscribe" to opt out of the Friday Ops Brief.</p></div></body>`;
+<p style="color:#64748b;font-size:11px">OpsJarvis · Caelara Labs · You received this because you requested a blueprint. Reply "unsubscribe" to opt out of the Friday Ops Brief.</p></div></body>`;
 }
 
 export async function sendEmail(to: string, subject: string, html: string): Promise<{ ok: boolean; error?: string }> {
