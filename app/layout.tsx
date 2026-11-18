@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const SITE_URL = "https://caelaralabs.com";
+const SITE_URL = "https://opsjarvis.vercel.app";
 const TITLE = "OpsJarvis — Self-Hosted AI Operations Desk | Claude Workflow Automation with Human-in-the-Loop Approvals";
 const DESCRIPTION =
   "Self-hosted AI operations desk powered by Claude + Next.js 15. Triages Gmail, WhatsApp Business, Slack and Telegram, drafts the action, and a human approves every write to Stripe, Paystack, Flutterwave, HubSpot and Xero. Keys stay in your .env — you own 100% of the source. Open-core (MIT) by Caelara Labs.";

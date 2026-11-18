@@ -132,7 +132,7 @@ export default function BlueprintCapture() {
 
 function blueprintText(bp: Blueprint) {
   const steps = bp.steps.map((s, i) => `${i + 1}. ${s.name} — ${s.agent}: ${s.detail} (approval gate: ${s.approvalGate})`).join("\n");
-  return `${bp.title}\nRecommended: ${bp.tier} · ${bp.tierPrice} · ${bp.buildTime}\n\n${steps}\n\n${bp.whyThisTier}\nEst. time saved: ${bp.estimatedHoursSavedPerWeek} · Est. API cost: ${bp.estimatedMonthlyApiCost}\n\nGenerated at https://caelaralabs.com/#blueprint · OpsJarvis by Caelara Labs`;
+  return `${bp.title}\nRecommended: ${bp.tier} · ${bp.tierPrice} · ${bp.buildTime}\n\n${steps}\n\n${bp.whyThisTier}\nEst. time saved: ${bp.estimatedHoursSavedPerWeek} · Est. API cost: ${bp.estimatedMonthlyApiCost}\n\nGenerated at https://opsjarvis.vercel.app/#blueprint · OpsJarvis by Caelara Labs`;
 }
 
 function BlueprintView({ bp, emailed, emailNote, onReset }: { bp: Blueprint; emailed: boolean; emailNote?: string; onReset: () => void }) {

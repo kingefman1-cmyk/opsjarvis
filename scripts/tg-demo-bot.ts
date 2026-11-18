@@ -14,7 +14,7 @@ import { triage, demoAllowed, DEMO_LIMIT_PER_DAY, type Triage } from "../lib/tg/
 
 const DRY = process.argv.includes("--dry-run");
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const DEMO_URL = process.env.DEMO_URL ?? "https://caelaralabs.com";
+const DEMO_URL = process.env.DEMO_URL ?? "https://opsjarvis.vercel.app";
 const HIRE_URL = process.env.HIRE_URL ?? "https://www.fiverr.com/king12fx/build-your-custom-claude-ai-assistant-and-automated-dashboard";
 
 const log = (m: string) => console.log(`[tg-demo-bot ${new Date().toISOString()}] ${m}`);
