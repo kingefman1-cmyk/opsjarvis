@@ -6,7 +6,7 @@ export const maxDuration = 60;
 
 /**
  * POST { bottleneck, email, website? }  ->  { ok, blueprint, emailed }
- * Server-side only: validates, rate-limits, generates the 3-step blueprint via lib/llm.ts (Claude -> Gemini -> Groq,
+ * Server-side only: validates, rate-limits, generates the 3-step blueprint via lib/llm.ts (primary provider -> Gemini -> Groq,
  * deterministic template when no key is configured), emails it via Resend when RESEND_API_KEY is set, stores the lead
  * (data/blueprint-leads.json where the filesystem is writable) and alerts the founder's Telegram Command Center.
  */
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     engine,
   };
 
-  const mail = await sendEmail(email, `Your Claude architecture blueprint: ${blueprint.title}`, blueprintHtml(lead));
+  const mail = await sendEmail(email, `Your AI architecture blueprint: ${blueprint.title}`, blueprintHtml(lead));
   lead.emailed = mail.ok;
   lead.alerted = await alertFounder(lead);
   const stored = saveLead(lead);

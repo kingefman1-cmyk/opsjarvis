@@ -13,7 +13,7 @@ type Blueprint = {
   estimatedMonthlyApiCost: string;
 };
 
-const FIVERR_URL = "https://www.fiverr.com/king12fx/build-your-custom-claude-ai-assistant-and-automated-dashboard";
+const FIVERR_URL = "https://www.fiverr.com/king12fx";
 const EXAMPLES = [
   "Triaging client emails and updating HubSpot deals manually",
   "Copying Stripe refunds into a spreadsheet and Slack every morning",
@@ -60,7 +60,7 @@ export default function BlueprintCapture() {
         <div className="lg:col-span-2">
           <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-signal">Free in 30 seconds</div>
           <h2 className="mt-2 text-2xl font-semibold leading-tight text-white sm:text-[26px]">
-            Have a messy manual workflow? Get a custom Claude architecture blueprint in 30 seconds.
+            Have a messy manual workflow? Get a custom AI architecture blueprint in 30 seconds.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-400">
             Describe the bottleneck in one line. You get a 3-step Operations Desk design: the agents, the approval gates, the
@@ -193,7 +193,7 @@ function BlueprintView({ bp, emailed, emailNote, onReset }: { bp: Blueprint; ema
         <div className="rounded-lg border border-ink-700 bg-ink-900 px-3 py-2.5">
           <div className="text-[10px] uppercase tracking-wider text-slate-400">Est. API cost</div>
           <div className="mt-0.5 text-lg font-semibold tabular-nums text-white">{bp.estimatedMonthlyApiCost}</div>
-          <div className="text-[10px] text-slate-500">billed by your own Claude account, no markup</div>
+          <div className="text-[10px] text-slate-500">billed by your own LLM provider account, no markup</div>
         </div>
       </div>
 

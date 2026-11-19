@@ -13,7 +13,7 @@ export type Service = {
 };
 
 export const SERVICES: Service[] = [
-  { id: "claude", name: "Claude API", kind: "AI engine", state: "operational", latencyMs: 412, jitter: 38, uptime: "99.98%" },
+  { id: "llm", name: "LLM provider", kind: "AI engine", state: "operational", latencyMs: 412, jitter: 38, uptime: "99.98%" },
   { id: "gmail", name: "Gmail", kind: "Email", state: "operational", latencyMs: 96, jitter: 12, uptime: "99.99%" },
   { id: "slack", name: "Slack", kind: "Chat", state: "operational", latencyMs: 74, jitter: 9, uptime: "99.97%" },
   { id: "telegram", name: "Telegram", kind: "Bot API", state: "operational", latencyMs: 88, jitter: 11, uptime: "99.99%" },
@@ -236,7 +236,7 @@ export const TASKS: Task[] = [
     tool: "PM2 worker",
     risk: "low",
     status: "queued",
-    steps: ["Query yesterday's payments", "Summarise with Claude", "Post to Slack"],
+    steps: ["Query yesterday's payments", "Summarise with AI", "Post to Slack"],
   },
   {
     id: "t5",

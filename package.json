@@ -30,11 +30,11 @@
     "tsx": "^4.23.15",
     "typescript": "^5.7.0"
   },
-  "description": "Self-hosted AI operations desk: Claude + Next.js 15 + Telegram, with human-in-the-loop approvals.",
+  "description": "Self-hosted AI operations desk: Next.js 15 + Telegram, with human-in-the-loop approvals.",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/kingefman1-cmyk/opsjarvis"
   },
-  "author": "Efe Brume-Ezewu (Caelara Labs)"
+  "author": "Caelara Labs"
 }

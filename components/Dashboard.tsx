@@ -82,7 +82,7 @@ function nowTime() {
   return new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
 }
 
-/** A Claude-drafted X reply waiting for a human click. Served by /api/x/queue when running locally. */
+/** An AI-drafted X reply waiting for a human click. Served by /api/x/queue when running locally. */
 type XQueueItem = {
   id: string;
   kind: "reply" | "post";
@@ -95,7 +95,7 @@ type XQueueItem = {
 };
 type XActivity = { id: string; time: string; actor: LogEntry["actor"]; text: string; url?: string };
 
-const FIVERR_URL = "https://www.fiverr.com/king12fx/build-your-custom-claude-ai-assistant-and-automated-dashboard";
+const FIVERR_URL = "https://www.fiverr.com/king12fx";
 const TG_DEMO_URL = "https://t.me/OpsJarvisAI_bot";
 
 export default function Dashboard() {
@@ -746,7 +746,7 @@ export default function Dashboard() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 text-sm font-medium text-white">
                       {q.kind === "post" ? "Publish build update on X" : `Reply to @${q.authorHandle} on X`}
-                      <span className="rounded px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-sky-300 ring-1 ring-sky-500/25">drafted by Claude</span>
+                      <span className="rounded px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-sky-300 ring-1 ring-sky-500/25">drafted by AI</span>
                     </div>
                     <a href={q.sourceUrl} target="_blank" rel="noreferrer" className="mt-1 block truncate text-[11px] text-slate-500 hover:text-slate-300">
                       {q.sourceText}
@@ -858,9 +858,9 @@ export default function Dashboard() {
             <div className="text-slate-400">
               Built by{" "}
               <a href={FIVERR_URL} target="_blank" rel="noopener noreferrer" className="text-slate-200 underline-offset-2 hover:underline">
-                Efe — AI Automation Architect (Caelara Labs)
+                Caelara Labs — AI Automation
               </a>{" "}
-              | Custom Claude Assistants &amp; Live Dashboards ·{" "}
+              | Custom AI Assistants &amp; Live Dashboards ·{" "}
               <a href={TG_DEMO_URL} target="_blank" rel="noopener noreferrer" className="text-slate-200 underline-offset-2 hover:underline">
                 Live Telegram Demo (@OpsJarvisAI_bot)
               </a>

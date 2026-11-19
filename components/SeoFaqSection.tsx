@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const FIVERR_URL = "https://www.fiverr.com/king12fx/build-your-custom-claude-ai-assistant-and-automated-dashboard";
+const FIVERR_URL = "https://www.fiverr.com/king12fx";
 const REPO_URL = "https://github.com/kingefman1-cmyk/opsjarvis";
 
 type Faq = { q: string; a: string };
@@ -10,7 +10,7 @@ type Faq = { q: string; a: string };
 export const FAQS: Faq[] = [
   {
     q: "Where do my API keys live? Does anything secret reach the browser?",
-    a: "Every key (Anthropic, Gmail, Slack, Stripe, HubSpot…) sits in a server-side .env.local on your own Vercel project or VPS and is read only inside Server Actions, Route Handlers and background workers. The dashboard is a Client Component with no secrets; the browser bundle never contains a key. A clean .env.example ships with every build so you paste your own keys and nothing of ours.",
+    a: "Every key (LLM provider, Gmail, Slack, Stripe, HubSpot…) sits in a server-side .env.local on your own Vercel project or VPS and is read only inside Server Actions, Route Handlers and background workers. The dashboard is a Client Component with no secrets; the browser bundle never contains a key. A clean .env.example ships with every build so you paste your own keys and nothing of ours.",
   },
   {
     q: "Which tools does it connect to — WhatsApp Business, Paystack, Stripe, HubSpot?",
@@ -18,7 +18,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "What does “human-in-the-loop” actually mean here?",
-    a: "Claude reads, classifies and drafts automatically. Anything that writes to the outside world — a refund, a CRM stage change, an outbound message — opens a side-by-side review with the exact API payload, a before/after state diff and the editable draft. A deterministic executor runs only what you confirmed, and the activity log records actor, time and target. Low-risk items can be bulk-approved; nothing is auto-sent unless you switch that on yourself.",
+    a: "The AI reads, classifies and drafts automatically. Anything that writes to the outside world — a refund, a CRM stage change, an outbound message — opens a side-by-side review with the exact API payload, a before/after state diff and the editable draft. A deterministic executor runs only what you confirmed, and the activity log records actor, time and target. Low-risk items can be bulk-approved; nothing is auto-sent unless you switch that on yourself.",
   },
   {
     q: "What is the circuit breaker?",
@@ -26,7 +26,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "How much does a build cost, and what do I get?",
-    a: "Three fixed tiers on Fiverr. Basic $120 (2 days): one automated API pipeline or Claude workflow script with .env.example and setup guide. Standard $325 (4 days): the Next.js 15 dark-mode dashboard on Vercel connected to up to three REST/OAuth APIs with inbox triage, summaries, read and draft actions. Premium $950 (7 days): multi-step write actions, approval switches, 24/7 PM2 workers on your VPS and unlimited standard APIs. Standard plus exactly one write action is a $575 custom offer. You own 100% of the source.",
+    a: "Three fixed tiers on Fiverr. Basic $120 (2 days): one automated API pipeline or AI workflow script with .env.example and setup guide. Standard $325 (4 days): the Next.js 15 dark-mode dashboard on Vercel connected to up to three REST/OAuth APIs with inbox triage, summaries, read and draft actions. Premium $950 (7 days): multi-step write actions, approval switches, 24/7 PM2 workers on your VPS and unlimited standard APIs. Standard plus exactly one write action is a $575 custom offer. You own 100% of the source.",
   },
   {
     q: "Can I run it myself instead of ordering a build?",

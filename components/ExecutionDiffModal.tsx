@@ -103,7 +103,7 @@ export default function ExecutionDiffModal({ task, breakerActive, onConfirm, onC
               <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 {task.draft ? (task.draft.kind === "email" ? "Customer email (editable)" : "Slack update (editable)") : "Outbound message"}
               </div>
-              {task.draft && <span className="rounded px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-sky-300 ring-1 ring-sky-500/25">drafted by Claude</span>}
+              {task.draft && <span className="rounded px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-sky-300 ring-1 ring-sky-500/25">drafted by AI</span>}
             </div>
             {task.draft ? (
               <>

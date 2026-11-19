@@ -15,7 +15,7 @@ import { triage, demoAllowed, DEMO_LIMIT_PER_DAY, type Triage } from "../lib/tg/
 const DRY = process.argv.includes("--dry-run");
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const DEMO_URL = process.env.DEMO_URL ?? "https://opsjarvis.vercel.app";
-const HIRE_URL = process.env.HIRE_URL ?? "https://www.fiverr.com/king12fx/build-your-custom-claude-ai-assistant-and-automated-dashboard";
+const HIRE_URL = process.env.HIRE_URL ?? "https://www.fiverr.com/king12fx";
 
 const log = (m: string) => console.log(`[tg-demo-bot ${new Date().toISOString()}] ${m}`);
 
@@ -43,9 +43,9 @@ const dot: Record<Triage["priority"], string> = { urgent: "🔴", normal: "🔵"
 function welcome() {
   return (
     `<b>OpsJarvis by Caelara Labs</b>\n\n` +
-    `A Claude-powered operations desk for small teams. It reads your inbox (email, Slack, Telegram), flags what is urgent, drafts the next step, and waits for a human to approve anything that writes to Stripe, HubSpot or a customer.\n\n` +
+    `An AI-powered operations desk for small teams. It reads your inbox (email, Slack, Telegram), flags what is urgent, drafts the next step, and waits for a human to approve anything that writes to Stripe, HubSpot or a customer.\n\n` +
     `Try it: pick a scenario or paste any message your team might receive.\n\n` +
-    `Live dashboard: ${DEMO_URL}\nWork with Efe: ${HIRE_URL}`
+    `Live dashboard: ${DEMO_URL}\nWork with Caelara Labs: ${HIRE_URL}`
   );
 }
 function scenarioKeyboard() {

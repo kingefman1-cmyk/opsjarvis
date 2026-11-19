@@ -1,7 +1,7 @@
 /**
  * Single text-completion adapter behind every drafting call in the repo.
  *
- * Order: Claude (primary, branded engine) -> Gemini (Google free tier) -> Groq.
+ * Order: primary provider -> Gemini (Google free tier) -> Groq.
  * The first provider whose key is present is used; if it errors, the next one is tried.
  * Swap or reorder here only; business logic never talks to a vendor SDK directly.
  */
